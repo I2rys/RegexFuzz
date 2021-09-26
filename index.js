@@ -1,6 +1,3 @@
-//Dependencies
-const To_Regex = require("to-regex")
-
 //Variables
 const Self_Args = process.argv.slice(2)
 
@@ -108,6 +105,7 @@ function Fuzz(str, re, literalFlag){
             re = parts[1]
         }
     }
+    
     for (let func of Object.values(Self)) {
         let result
         let matchStr = func(str)
@@ -135,7 +133,7 @@ function Fuzz(str, re, literalFlag){
 //Main
 if(Self_Args.length == 0){
     console.log(`node index.js <regex> <flag> <string>
-Example: node index.js /hello/ g hello_test`)
+Example: node index.js (?:hello) g hello_test`)
     process.exit()
 }
 
@@ -154,6 +152,5 @@ if(Self_Args[2] == ""){
     process.exit()
 }
 
-Self_Args[0] = To_Regex(Self_Args[0], { contains: true })
-const results = Fuzz(Self_Args.slice(2).join(" "), /hello/, true)
+const results = Fuzz(Self_Args.slice(2).join(" "), Self_Args[0], Self_Args[1])
 console.log(results)
